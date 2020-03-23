@@ -1,6 +1,6 @@
 package com.springframework.spring5recipeapp.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -38,14 +38,17 @@ public class Recipe extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
+    public Recipe() {
+    }
+
     public Recipe addIngredient(Ingredient ingredient){
         ingredient.setRecipe(this);
         this.ingredients.add(ingredient);
         return this;
     }
 
-    public void setNotes(Notes notes) {
-        this.notes = notes;
-        notes.setRecipe(this);
+    protected boolean canEqual(final Object other) {
+        return other instanceof Recipe;
     }
+
 }
