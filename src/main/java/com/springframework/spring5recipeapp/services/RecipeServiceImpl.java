@@ -1,10 +1,13 @@
 package com.springframework.spring5recipeapp.services;
 
+import com.springframework.spring5recipeapp.dto.RecipeDto;
+import com.springframework.spring5recipeapp.mapper.RecipeMapper;
 import com.springframework.spring5recipeapp.model.Recipe;
 import com.springframework.spring5recipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -14,9 +17,11 @@ import java.util.Set;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeMapper recipeMapper;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeMapper recipeMapper) {
         this.recipeRepository = recipeRepository;
+        this.recipeMapper = recipeMapper;
     }
 
     @Override
@@ -40,4 +45,16 @@ public class RecipeServiceImpl implements RecipeService {
 
         return recipeOptional.get();
     }
+
+    @Transactional
+    @Override
+    public RecipeDto saveRecipeDto(RecipeDto dto) {
+        Recipe detachedRecipe = recipeMapper.recipeDtoToRecipe(dto);
+
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+        log.debug("Saved Recipe: " + savedRecipe.getId());
+        return recipeMapper.recipeToRecipeDto(savedRecipe);
+    }
+
+
 }

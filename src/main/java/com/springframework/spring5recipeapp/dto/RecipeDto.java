@@ -1,17 +1,13 @@
-package com.springframework.spring5recipeapp.commands;
+package com.springframework.spring5recipeapp.dto;
 
 import com.springframework.spring5recipeapp.model.Difficulty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class RecipeCommand {
+@Data
+public class RecipeDto {
     private Long id;
     private String description;
     private Integer prepTime;
@@ -20,9 +16,10 @@ public class RecipeCommand {
     private String source;
     private String url;
     private String directions;
-    private Set<IngredientCommand> ingredients = new HashSet<>();
+    private Byte[] image;
+    private Set<IngredientDto> ingredients = new HashSet<>();
     private Difficulty difficulty;
-    private NotesCommand notes;
-    private Set<CategoryCommand> categories = new HashSet<>();
+    private NotesDto notes;
+    private Set<CategoryDto> categories = new HashSet<>();
 
 }
