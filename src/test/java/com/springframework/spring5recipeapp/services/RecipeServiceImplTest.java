@@ -1,5 +1,6 @@
 package com.springframework.spring5recipeapp.services;
 
+import com.springframework.spring5recipeapp.mapper.RecipeMapperImpl;
 import com.springframework.spring5recipeapp.model.Recipe;
 import com.springframework.spring5recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ class RecipeServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, new RecipeMapperImpl());
     }
 
     @Test

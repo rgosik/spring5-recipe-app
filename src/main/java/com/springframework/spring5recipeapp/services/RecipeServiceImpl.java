@@ -26,7 +26,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Set<Recipe> getRecipes() {
-        log.debug("I am in the service");
+        log.debug("I am in the service: getRecipes");
         Set<Recipe> recipeSet = new HashSet<>();
 
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
@@ -36,7 +36,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(Long id) {
-        log.debug("I am in the service");
+        log.debug("I am in the service: findById");
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 
         if (!recipeOptional.isPresent()) {
@@ -46,14 +46,26 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeOptional.get();
     }
 
-    @Transactional
     @Override
+    @Transactional
     public RecipeDto saveRecipeDto(RecipeDto dto) {
         Recipe detachedRecipe = recipeMapper.recipeDtoToRecipe(dto);
 
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         log.debug("Saved Recipe: " + savedRecipe.getId());
         return recipeMapper.recipeToRecipeDto(savedRecipe);
+    }
+
+    @Override
+    @Transactional
+    public RecipeDto findDtoById(Long id) {
+        log.debug("I am in the service: findDtoById");
+        return recipeMapper.recipeToRecipeDto(findById(id));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        recipeRepository.deleteById(id);
     }
 
 
