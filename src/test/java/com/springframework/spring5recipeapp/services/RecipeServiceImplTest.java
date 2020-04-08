@@ -17,6 +17,8 @@ import static org.mockito.Mockito.*;
 
 class RecipeServiceImplTest {
 
+    private final Long id1 = 1L;
+
     RecipeService recipeService;
 
     @Mock
@@ -31,7 +33,7 @@ class RecipeServiceImplTest {
     @Test
     void getRecipeById() {
         Recipe recipe = new Recipe();
-        recipe.setId(1L);
+        recipe.setId(id1);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
@@ -55,5 +57,28 @@ class RecipeServiceImplTest {
 
         assertEquals(recipes.size(), 1);
         verify(recipeRepository, times(1)).findAll();
+    }
+
+    @Test
+    void saveRecipeDto() {
+    }
+
+    @Test
+    void findDtoById() {
+    }
+
+    @Test
+    void deleteById() {
+
+        //given
+        Long idToDelete = Long.valueOf(2L);
+
+        //when
+        recipeService.deleteById(idToDelete);
+
+        //no 'when', since method has void return type
+
+        //then
+        verify(recipeRepository, times(1)).deleteById(anyLong());
     }
 }
